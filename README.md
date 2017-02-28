@@ -1,5 +1,5 @@
 # jdbc-servlet-api
-Java library that provides a extended Servlet API customized for processing JDBC Query or Update Statements
+Java library that provides an extended Servlet API customized for processing JDBC Query or Update Statements
 
 ## Getting Started
 
@@ -89,26 +89,29 @@ that this JDBC servlet has to process.
 
 The JDBC servlet corresponds either to a JdbcQueryServlet or to a JdbcUpdateServlet.
 
-#### How to define a JDBC Query Servlet ?
+#### How to define a JDBC Query Servlet?
 
 ```java
 public class MyJdbcServlet extends JdbcQueryServlet<List<String>> {
 
 	@Override
-	protected void doFill(PreparedStatement statement, HttpServletRequest request) throws Exception { }
+	protected void doFill(PreparedStatement statement, HttpServletRequest request) 
+	throws Exception { }
 
 	@Override
-	protected List<Category> doMap(HttpServletRequest request, ResultSet resultSet) throws Exception {
+	protected List<Category> doMap(HttpServletRequest request, ResultSet resultSet) 
+	throws Exception {
 		List<String> names = new LinkedList<String>();
 		while (resultSet.next()) {
 			String name = resultSet.getString("name");
 			names.add(name);
 		}
-		return categories;
+		return names;
 	}
 
 	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) 
+	throws IOException, ServletException {
 		List<String> names = this.doProcess(request);
 		this.doPrint(names, response);
 	}
