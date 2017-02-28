@@ -68,7 +68,7 @@ In your `web.xml` file in the folder `src/main/webapp/WEB-INF`,
 </webapp>
 ```
 
-### How to use JDBC Servets?
+### How to use JDBC Servlets?
 
 In order to register a JDBC servlet, 
 within your `web.xml` file in the folder `src/main/webapp/WEB-INF`, 
