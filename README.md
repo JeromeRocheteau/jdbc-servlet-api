@@ -150,20 +150,20 @@ public class MyJdbcServlet extends JdbcUpdateServlet<Boolean> {
 
         @Override
         protected void doFill(PreparedStatement statement, HttpServletRequest request) 
-	throws Exception {
+        throws Exception {
                 String name = request.getParameter("name");
                 statement.setString(1, name);
         }
         
         @Override
         protected Boolean doMap(HttpServletRequest request, int count) 
-	throws Exception {
+        throws Exception {
                 return count > 0;
         }
 
         @Override
         public void doPost(HttpServletRequest request, HttpServletResponse response) 
-	throws IOException, ServletException {
+        throws IOException, ServletException {
                 Boolean done = this.doProcess(request);
                 this.doPrint(done, response);
         }
