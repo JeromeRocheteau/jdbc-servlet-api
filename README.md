@@ -41,6 +41,7 @@ and fulfill the snippet below with the appropriate settings:
 ```
 
 In your `web.xml` file in the folder `src/main/webapp/WEB-INF`, 
+
 1. specify a reference to the JDBC resource defined in the `context.xml` file
 2. specify a context parameter called `jdbc-resouce` with the JDBC resource reference attribute `res-ref-name` value
 3. specify the context servlet listener `com.github.servlet.jdbc.JdbcListener` that will manage the JDBC resource
@@ -94,6 +95,7 @@ The JDBC servlet corresponds either to a JdbcQueryServlet or to a JdbcUpdateServ
 A JDBC Query Servlet consists of a servlet that executes a SQL query statement `select ... from ...`
 i.e. queries that returns a JDBC `ResultSet`. Thus, such JDBC servlets have to override 
 at least three methods:
+
 1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparaedStatement`;
 2. the second one `doMap` consists in transforming the content of the `ResultSet` into a Java object that stands for the result of SQL query; 
 3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doPrint` in order to exeutes the SQL query and to write the transformed result on the response output.
@@ -141,6 +143,7 @@ queries that modify the database data either with a create query `insert into ..
 a update one`update ...`, or a delete one `delete from ...`.
 Thus, such JDBC servlets have to override 
 at least three methods:
+
 1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparaedStatement`;
 2. the second one `doMap` consists in transforming the result of the SQL query `count` that provides the number of rows affected by the query into a Java object; 
 3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doPrint` in order to exeutes the SQL query and to write the transformed result on the response output.
