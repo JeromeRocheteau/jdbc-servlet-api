@@ -91,6 +91,13 @@ The JDBC servlet corresponds either to a JdbcQueryServlet or to a JdbcUpdateServ
 
 #### How to define a JDBC Query Servlet?
 
+A JDBC Query Servlet consists of a servlet that executes a SQL query statement `select ... from ...`
+i.e. queries that returns a JDBC `ResultSet`. Thus, such JDBC servlets have to override 
+at least three methods:
+1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparaedStatement`;
+2. the second one `doMap` consists in transforming the content of the `ResultSet` into a Java object that stands for the result of SQL query; 
+3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doPrint` in order to exeutes the SQL query and to write the transformed result on the response output.
+
 ```java
 public class MyJdbcServlet extends JdbcQueryServlet<List<String>> {
 
@@ -118,11 +125,58 @@ public class MyJdbcServlet extends JdbcQueryServlet<List<String>> {
 	
 }
 ```
+The file `my-sql-query.sql` should be located in the folders `com/github/queries`
+as a Java project resource i.e. within the folder `src/main/resources`.
+It merely consists of a SQL query that retrieves values of the attribute `name` 
+from a table called `names` in this example.
 
 ```sql
 select name from names;
 ```
 
 ### How to use JDBC Update Servlets?
+
+A JDBC Update Servlet consists of a servlet that executes a SQL update statement i.e. 
+queries that modify the database data either with a create query `insert into ...`, or 
+a update one`update ...`, or a delete one `delete from ...`.
+Thus, such JDBC servlets have to override 
+at least three methods:
+1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparaedStatement`;
+2. the second one `doMap` consists in transforming the result of the SQL query `count` that provides the number of rows affected by the query into a Java object; 
+3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doPrint` in order to exeutes the SQL query and to write the transformed result on the response output.
+
+```java
+public class MyJdbcServlet extends JdbcUpdateServlet<Boolean> {
+
+        @Override
+        protected void doFill(PreparedStatement statement, HttpServletRequest request) 
+	throws Exception {
+                String name = request.getParameter("name");
+                statement.setString(1, name);
+        }
+        
+        @Override
+        protected Boolean doMap(HttpServletRequest request, int count) 
+	throws Exception {
+                return count > 0;
+        }
+
+        @Override
+        public void doPost(HttpServletRequest request, HttpServletResponse response) 
+	throws IOException, ServletException {
+                Boolean done = this.doProcess(request);
+                this.doPrint(done, response);
+        }
+        
+}
+```
+
+The file `my-sql-query.sql` located in the folders `com/github/queries`
+inside the resource folders `src/main/resources`.
+It consists of a SQL query that insert a parametric value into a table called `names` in this example.
+
+```sql
+insert into names (name) values (?);
+```
 
 ### How to use JDBC Filters?
