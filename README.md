@@ -108,7 +108,7 @@ public class MyJdbcServlet extends JdbcQueryServlet<List<String>> {
 	throws Exception { }
 
 	@Override
-	protected List<Category> doMap(HttpServletRequest request, ResultSet resultSet) 
+	protected List<String> doMap(HttpServletRequest request, ResultSet resultSet) 
 	throws Exception {
 		List<String> names = new LinkedList<String>();
 		while (resultSet.next()) {
