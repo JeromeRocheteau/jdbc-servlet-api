@@ -47,7 +47,7 @@ In your `web.xml` file in the folder `src/main/webapp/WEB-INF`,
 3. specify the context servlet listener `com.github.servlet.jdbc.JdbcListener` that will manage the JDBC resource
 
 ```xml
-<webapp>
+<web-app>
 
   <resource-ref>
     <description>JDBC Resource</description>
@@ -65,7 +65,7 @@ In your `web.xml` file in the folder `src/main/webapp/WEB-INF`,
     <listener-class>com.github.servlet.jdbc.JdbcListener</listener-class>
   </listener>
   
-</webapp>
+</web-app>
 ```
 
 ### How to use JDBC Servlets?
