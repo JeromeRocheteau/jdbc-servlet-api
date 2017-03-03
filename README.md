@@ -96,7 +96,7 @@ A JDBC Query Servlet consists of a servlet that executes a SQL query statement `
 i.e. queries that returns a JDBC `ResultSet`. Thus, such JDBC servlets have to override 
 at least three methods:
 
-1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparaedStatement`;
+1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparedStatement`;
 2. the second one `doMap` consists in transforming the content of the `ResultSet` into a Java object that stands for the result of SQL query; 
 3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doPrint` in order to exeutes the SQL query and to write the transformed result on the response output.
 
@@ -144,7 +144,7 @@ a update one`update ...`, or a delete one `delete from ...`.
 Thus, such JDBC servlets have to override 
 at least three methods:
 
-1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparaedStatement`;
+1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparedStatement`;
 2. the second one `doMap` consists in transforming the result of the SQL query `count` that provides the number of rows affected by the query into a Java object; 
 3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doPrint` in order to exeutes the SQL query and to write the transformed result on the response output.
 
@@ -217,7 +217,7 @@ in executing the given SQL query if provided
 and in delegating the HTTP request to the next filter or servlet in the processing chain.
 Such JDBC filters have to override at least two methods:
 
-1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparaedStatement`;
+1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparedStatement`;
 2. the second one `doMap` consists in transforming the result set of the SQL query.
 
 JDBC filters can help to filter out authenticated users or clients as the following example:
