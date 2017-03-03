@@ -1,4 +1,4 @@
-package com.github.servlet.jdbc;
+package com.github.jeromerocheteau;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

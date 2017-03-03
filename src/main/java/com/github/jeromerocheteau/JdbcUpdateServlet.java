@@ -1,4 +1,4 @@
-package com.github.servlet.jdbc;
+package com.github.jeromerocheteau;
 
 import java.io.IOException;
 import java.sql.Connection;
