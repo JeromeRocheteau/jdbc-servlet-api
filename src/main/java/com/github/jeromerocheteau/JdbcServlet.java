@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
@@ -87,6 +88,9 @@ public abstract class JdbcServlet extends HttpServlet {
 			string = object.toString();
 		} else if (object instanceof Double) {
 			string = object.toString();
+		} else if (object instanceof Date) {
+			Date date = (Date) object;
+			string = Long.toString(date.getTime());
 		} else {
 			string = this.toJson(object);
 		}
