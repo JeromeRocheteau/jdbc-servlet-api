@@ -17,7 +17,7 @@ Once done, you need to insert the following dependency into your file `pom.xml`:
 
 ```xml
     <dependency>
-      <groupId>com.github.servlet.jdbc</groupId>
+      <groupId>com.github.jeromerocheteau</groupId>
       <artifactId>jdbc-servlet-api</artifactId>
       <version>1.0</version>
     </dependency>
@@ -62,7 +62,7 @@ In your `web.xml` file in the folder `src/main/webapp/WEB-INF`,
   </context-param>
   
   <listener>
-    <listener-class>com.github.servlet.jdbc.JdbcListener</listener-class>
+    <listener-class>com.github.jeromerocheteau.JdbcListener</listener-class>
   </listener>
   
 </web-app>
