@@ -3,6 +3,8 @@ package com.github.jeromerocheteau;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,18 +28,19 @@ public abstract class JdbcUpdateServlet<T> extends JdbcServlet {
 	
 	protected void doFill(PreparedStatement statement, HttpServletRequest request) throws Exception { }
 
-	protected abstract T doMap(HttpServletRequest request, int count) throws Exception;
+	protected abstract T doMap(HttpServletRequest request, int count, ResultSet resultSet) throws Exception;
 	
 	protected T doProcess(HttpServletRequest request) throws IOException, ServletException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
 			connection = this.getConnection();
-			statement = connection.prepareStatement(query);
+			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			this.doFill(statement, request);
 			int count = statement.executeUpdate();
 			connection.commit();
-			return this.doMap(request, count);
+			ResultSet resultSet = statement.getGeneratedKeys();
+			return this.doMap(request, count, resultSet);
 		} catch (Exception e) {
 			try {
 				connection.rollback();
