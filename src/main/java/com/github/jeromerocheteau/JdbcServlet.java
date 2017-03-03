@@ -119,6 +119,9 @@ public abstract class JdbcServlet extends HttpServlet {
 			json = object.toString();
 		} else if (object instanceof Double) {
 			json = object.toString();
+		} else if (object instanceof Date) {
+			Date date = (Date) object;
+			json = Long.toString(date.getTime());
 		} else if (object instanceof Collection<?>) {
 			Collection<?> collection = (Collection<?>) object;
 			json = "[" + this.toJson(collection) + "]";
