@@ -80,10 +80,10 @@ that this JDBC servlet has to process.
 ```xml
   <servlet>
     <servlet-name>my-jdbc-servlet</servlet-name>
-    <servlet-class>com.github.servlets.MyJdbcServlet</servlet-class>
+    <servlet-class>com.github.jeromerocheteau.MyJdbcServlet</servlet-class>
     <init-param>
       <param-name>sql-query</param-name>
-      <param-value>/com/github/queries/my-sql-query.sql</param-value>
+      <param-value>/com/github/jeromerocheteau/queries/my-sql-query.sql</param-value>
     </init-param>
   </servlet>
 ```
@@ -183,3 +183,72 @@ insert into names (name) values (?);
 ```
 
 ### How to use JDBC Filters?
+
+A JDBC filter consists of a filter that can execute a SQL query statement i.e. 
+queries that retrieve data from the database with a select query `select ...`.
+
+Firstly, JDBC filters have to be declared within the `web.xml` file 
+by specifying a Java Filter class and, eventually, by providing a parameter `sql-query` 
+that references a SQL query statement.
+
+```xml
+  <filter>
+    <filter-name>my-jdbc-filter</filter-name>
+    <filter-class>com.github.jeromerocheteau.MyFilter</filter-class>
+    <init-param>
+      <param-name>sql-query</param-name>
+      <param-value>/com/github/jeromerocheteau/queries/my-sql-query.sql</param-value>
+    </init-param>
+  </filter>
+```
+
+Finally, JDBC filter scope have to be defined by a `filter-mapping` the follows:
+
+```xml
+  <filter-mapping>
+    <filter-name>my-jdbc-filter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+```
+
+Secondly, JDBC filters have to be defined by a Java class that extends `JdbcFilter` which extends `Filter` itself. 
+JDBC filters merely consists in setting the request and response encoding (default is UTF-8), 
+in executing the given SQL query if provided 
+and in delegating the HTTP request to the next filter or servlet in the processing chain.
+Such JDBC filters have to override at least two methods:
+
+1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparaedStatement`;
+2. the second one `doMap` consists in transforming the result set of the SQL query.
+
+JDBC filters can help to filter out authenticated users or clients as the following example:
+
+```java
+public class MyFilter extends JdbcFilter {
+
+	@Override
+	protected void doFill(PreparedStatement statement, ServletRequest request) throws Exception {
+		String passphrase = request.getHeader("X-Passphrase");
+		statement.setString(1, passphrase);
+	}
+	
+	@Override
+	protected void doMap(ServletRequest request, ResultSet resultSet) throws Exception {
+		if (resultSet.next()) {
+			String user = resultSet.getString("username");
+			request.setAttribute("user", user);
+		} else {
+			throw new ServletException("user");
+		}
+	}
+	
+}
+```
+The SQL query that corresponds to this example can be defined as follows:
+
+```sql
+select 
+  u.username as username 
+from users u 
+inner join passphrases p on p.user = u.username
+where p.passphrase = ?;
+```
