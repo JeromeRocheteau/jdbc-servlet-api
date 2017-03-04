@@ -330,5 +330,5 @@ select
   u.username as username 
 from users u 
 inner join passphrases p on p.user = u.username
-where p.passphrase = ?;
+where p.pass = ?;
 ```
