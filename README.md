@@ -153,7 +153,9 @@ Thus, such JDBC servlets have to override
 at least three methods:
 
 1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparedStatement`;
-2. the second one `doMap` consists in transforming the result of the SQL query `count` that provides the number of rows affected by the query into a Java object; 
+2. the second one `doMap` consists in transforming the result of the SQL query into a Java object;
+  - the first SQL query result is an integer `count` that corresponds to the number of rows affected by the query; 
+  - the second SQL query result is a `ResultSet` that corresponds to the list of the generated keys if the query is an `insert into ...` statement; 
 3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doPrint` in order to exeutes the SQL query and to write the transformed result on the response output.
 
 ```java
@@ -167,7 +169,7 @@ public class MyJdbcServlet extends JdbcUpdateServlet<Boolean> {
         }
         
         @Override
-        protected Boolean doMap(HttpServletRequest request, int count) 
+        protected Boolean doMap(HttpServletRequest request, int count, ResultSet resultSet) 
         throws Exception {
                 return count > 0;
         }
