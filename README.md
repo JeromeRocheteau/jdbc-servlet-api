@@ -6,7 +6,7 @@ Java library that provides an extended Servlet API customized for processing JDB
 - [How to use this library?] (#how-to-use-this-library) 
 - [How to connect to a database?] (#how-to-connect-to-a-database) 
 - [How to use JDBC Servlets?] (#how-to-use-jdbc-servlets) 
-  - [How to use JDBC Query Servlets?] (#how-to-user-jdbc-query-servlets) 
+  - [How to use JDBC Query Servlets?] (#how-to-use-jdbc-query-servlets) 
   - [How to use JDBC Update Servlets?] (#how-to-use-jdbc-update-servlets) 
   - [How to compose JDBC Servlets?] (#how-to-compose-jdbc-servlets) 
 - [How to use JDBC Filters?] (#how-to-use-jdbc-filters) 
