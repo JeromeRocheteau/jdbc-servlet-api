@@ -6,9 +6,9 @@ Java library that provides an extended Servlet API customized for processing JDB
 - [How to use this library?] (#how-to-use-this-library) 
 - [How to connect to a database?] (#how-to-connect-to-a-database) 
 - [How to use JDBC Servlets?] (#how-to-use-jdbc-servlets) 
-  - [How to define a JDBC Query Servlet?] (#how-to-define-a-jdbc-query-servlet) 
-  - [How to define a JDBC Update Servlet?] (#how-to-define-a-jdbc-update-servlet) 
-  - [How to compose several JDBC Servlets?] (#how-to-compose-several-jdbc-servlets) 
+  - [How to use JDBC Query Servlets?] (#how-to-user-jdbc-query-servlets) 
+  - [How to use JDBC Update Servlets?] (#how-to-use-jdbc-update-servlets) 
+  - [How to compose JDBC Servlets?] (#how-to-compose-jdbc-servlets) 
 - [How to use JDBC Filters?] (#how-to-use-jdbc-filters) 
 
 ### How to use this library?
@@ -98,7 +98,7 @@ that this JDBC servlet has to process.
 
 The JDBC servlet corresponds either to a JdbcQueryServlet or to a JdbcUpdateServlet.
 
-#### How to define a JDBC Query Servlet?
+#### How to use JDBC Query Servlets?
 
 A JDBC Query Servlet consists of a servlet that executes a SQL query statement `select ... from ...`
 i.e. queries that returns a JDBC `ResultSet`. Thus, such JDBC servlets have to override 
@@ -190,7 +190,7 @@ It consists of a SQL query that insert a parametric value into a table called `n
 insert into names (name) values (?);
 ```
 
-#### How to compose several JDBC Servlets?
+#### How to compose JDBC Servlets?
 
 This API makes possible to compose JDBC servlets in a simple way. 
 Assuming that 2 JDBC servlets are declared within the file `webv.xml` as seen previously.
