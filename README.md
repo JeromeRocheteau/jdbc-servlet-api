@@ -51,8 +51,8 @@ and fulfill the snippet below with the appropriate settings:
 In your `web.xml` file in the folder `src/main/webapp/WEB-INF`, 
 
 1. specify a reference to the JDBC resource defined in the `context.xml` file
-2. specify a context parameter called `jdbc-resouce` with the JDBC resource reference attribute `res-ref-name` value
-3. specify the context servlet listener `com.github.servlet.jdbc.JdbcListener` that will manage the JDBC resource
+2. specify a context parameter called `jdbc-resource` with the JDBC resource reference attribute `res-ref-name` value
+3. specify the context servlet listener `JdbcListener` that will manage the previous JDBC resource
 
 ```xml
 <web-app>
