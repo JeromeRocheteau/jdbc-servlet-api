@@ -4,10 +4,10 @@ Java library that provides an extended Servlet API customized for processing JDB
 ## Getting Started
 
 - [How to use this library?] (#how-to-use-this-library) 
-- [How to connect to a database?] (#how-to-connect-to a-database) 
+- [How to connect to a database?] (#how-to-connect-to-a-database) 
 - [How to use JDBC Servlets?] (#how-to-use-jdbc-servlets) 
-  - [How to define a JDBC Query Servlet?] (#how-to--define-a-jdbc-query-servlet) 
-  - [How to define a JDBC Update Servlet?] (#how-to--define-a-jdbc-update-servlet) 
+  - [How to define a JDBC Query Servlet?] (#how-to-define-a-jdbc-query-servlet) 
+  - [How to define a JDBC Update Servlet?] (#how-to-define-a-jdbc-update-servlet) 
   - [How to compose several JDBC Servlets?] (#how-to-compose-several-jdbc-servlets) 
 - [How to use JDBC Filters?] (#how-to-use-jdbc-filters) 
 
