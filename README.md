@@ -8,7 +8,7 @@ Java library that provides an extended Servlet API customized for processing JDB
 - [How to use JDBC Servlets?] (#how-to-use-jdbc-servlets) 
   - [How to define a JDBC Query Servlet?] (#how-to--define-a-jdbc-query-servlet) 
   - [How to define a JDBC Update Servlet?] (#how-to--define-a-jdbc-update-servlet) 
-  - [How to compose several JDBC Servlets?] (#how-to-compose-jdbc-servlets) 
+  - [How to compose several JDBC Servlets?] (#how-to-compose-several-jdbc-servlets) 
 - [How to use JDBC Filters?] (#how-to-use-jdbc-filters) 
 
 ### How to use this library?
