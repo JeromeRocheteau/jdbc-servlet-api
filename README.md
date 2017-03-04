@@ -144,7 +144,7 @@ from a table called `names` in this example.
 select name from names;
 ```
 
-### How to use JDBC Update Servlets?
+#### How to use JDBC Update Servlets?
 
 A JDBC Update Servlet consists of a servlet that executes a SQL update statement i.e. 
 queries that modify the database data either with a create query `insert into ...`, or 
@@ -190,6 +190,76 @@ It consists of a SQL query that insert a parametric value into a table called `n
 insert into names (name) values (?);
 ```
 
+#### How to compose several JDBC Servlets?
+
+This API makes possible to compose JDBC servlets in a simple way. 
+Assuming that 2 JDBC servlets are declared within the file `webv.xml` as seen previously.
+
+```xml
+  <servlet>
+    <servlet-name>my-first-jdbc-servlet</servlet-name>
+    <servlet-class>com.github.jeromerocheteau.MyFirstJdbcServlet</servlet-class>
+    <init-param>
+      <param-name>sql-query</param-name>
+      <param-value>/com/github/jeromerocheteau/queries/my-first-sql-query.sql</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>my-second-jdbc-servlet</servlet-name>
+    <servlet-class>com.github.jeromerocheteau.MySecondJdbcServlet</servlet-class>
+    <init-param>
+      <param-name>sql-query</param-name>
+      <param-value>/com/github/jeromerocheteau/queries/my-second-sql-query.sql</param-value>
+    </init-param>
+  </servlet>
+```
+
+The JDBC servlets `MyFirstJdbcServlet` and `MySecondJdbcServlet` shall to be implemented 
+as a class that extends `JdbcQueryServlet` or `JdbcUpdateServlet` 
+and they shall provide their SQL query results as attributes of the HTTP request.
+
+```java
+public class MySecondServlet extends JdbcQueryServlet<String> {
+	
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response) 
+	throws IOException, ServletException {
+		String result = this.doProcess(request);
+		request.setAttribute("result", result);
+	}
+	
+}
+```
+
+It is then possible to define a JDBC servlet that processes the first JDBC servlet followed by the second one. 
+It consists of declaring a JDBC servlet within the file `web.xml` without `sql-query` parameter:
+
+```xml
+  <servlet>
+    <servlet-name>my-jdbc-servlet</servlet-name>
+    <servlet-class>com.github.jeromerocheteau.MyJdbcServlet</servlet-class>
+  </servlet>
+```
+This JDBC servlet `MyJdbcServlet` extends that of `JdbcServlet` in calling these two JDBC servlets 
+by the means of the `doCall` method inside an overrided `doGet` or `doPost` method.
+Results of previous JDBC servlets can then be grabbed from the request attributes 
+and written to the response output stream for example.
+
+```java
+public class MyJdbcServlet extends JdbcServlet {
+	
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response) 
+	throws IOException, ServletException {
+		this.doCall(request, response, "my-first-jdbc-servlet");
+		this.doCall(request, response, "my-second-jdbc-servlet");
+		String result = (String) request.getAttribute("result");
+		this.doPrint(result, response);
+	}
+	
+}
+```
 ### How to use JDBC Filters?
 
 A JDBC filter consists of a filter that can execute a SQL query statement i.e. 
@@ -259,74 +329,4 @@ select
 from users u 
 inner join passphrases p on p.user = u.username
 where p.passphrase = ?;
-```
-### How to compose several JDBC Servlets?
-
-This API makes possible to compose JDBC servlets in a simple way. 
-Assuming that 2 JDBC servlets are declared within the file `webv.xml` as seen previously.
-
-```xml
-  <servlet>
-    <servlet-name>my-first-jdbc-servlet</servlet-name>
-    <servlet-class>com.github.jeromerocheteau.MyFirstJdbcServlet</servlet-class>
-    <init-param>
-      <param-name>sql-query</param-name>
-      <param-value>/com/github/jeromerocheteau/queries/my-first-sql-query.sql</param-value>
-    </init-param>
-  </servlet>
-  
-  <servlet>
-    <servlet-name>my-second-jdbc-servlet</servlet-name>
-    <servlet-class>com.github.jeromerocheteau.MySecondJdbcServlet</servlet-class>
-    <init-param>
-      <param-name>sql-query</param-name>
-      <param-value>/com/github/jeromerocheteau/queries/my-second-sql-query.sql</param-value>
-    </init-param>
-  </servlet>
-```
-
-The JDBC servlets `MyFirstJdbcServlet` and `MySecondJdbcServlet` shall to be implemented 
-as a class that extends `JdbcQueryServlet` or `JdbcUpdateServlet` 
-and they shall provide their SQL query results as attributes of the HTTP request.
-
-```java
-public class MySecondServlet extends JdbcQueryServlet<String> {
-	
-	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response) 
-	throws IOException, ServletException {
-		String result = this.doProcess(request);
-		request.setAttribute("result", result);
-	}
-	
-}
-```
-
-It is then possible to define a JDBC servlet that processes the first JDBC servlet followed by the second one. 
-It consists of declaring a JDBC servlet within the file `web.xml` without `sql-query` parameter:
-
-```xml
-  <servlet>
-    <servlet-name>my-jdbc-servlet</servlet-name>
-    <servlet-class>com.github.jeromerocheteau.MyJdbcServlet</servlet-class>
-  </servlet>
-```
-This JDBC servlet `MyJdbcServlet` extends that of `JdbcServlet` in calling these two JDBC servlets 
-by the means of the `doCall` method inside an overrided `doGet` or `doPost` method.
-Results of previous JDBC servlets can then be grabbed from the request attributes 
-and written to the response output stream for example.
-
-```java
-public class MyJdbcServlet extends JdbcServlet {
-	
-	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response) 
-	throws IOException, ServletException {
-		this.doCall(request, response, "my-first-jdbc-servlet");
-		this.doCall(request, response, "my-second-jdbc-servlet");
-		String result = (String) request.getAttribute("result");
-		this.doPrint(result, response);
-	}
-	
-}
 ```
