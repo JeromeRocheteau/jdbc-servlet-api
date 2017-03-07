@@ -24,7 +24,7 @@
   <scm>
     <connection>scm:git:git://github.com/jeromerocheteau/jdbc-servlet-api.git</connection>
     <developerConnection>scm:git:ssh://github.com:jeromerocheteau/jdbc-servlet-api.git</developerConnection>
-    <url>http://github.com/jeromerocheteau/jdbc-servlet-api/tree/master</url>
+    <url>https://github.com/jeromerocheteau/jdbc-servlet-api/tree/master</url>
    </scm>
   <properties>
     <encoding>UTF-8</encoding>
