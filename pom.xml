@@ -39,7 +39,6 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
-  <build>
   <distributionManagement>
     <repository>
       <id>icam-maven-repository</id>
