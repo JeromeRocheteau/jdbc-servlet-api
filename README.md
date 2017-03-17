@@ -106,7 +106,7 @@ at least three methods:
 
 1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparedStatement`;
 2. the second one `doMap` consists in transforming the content of the `ResultSet` into a Java object that stands for the result of SQL query; 
-3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doPrint` in order to exeutes the SQL query and to write the transformed result on the response output.
+3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doWrite` in order to exeutes the SQL query and to write the transformed result on the response output.
 
 ```java
 public class MyJdbcServlet extends JdbcQueryServlet<List<String>> {
@@ -130,7 +130,7 @@ public class MyJdbcServlet extends JdbcQueryServlet<List<String>> {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 	throws IOException, ServletException {
 		List<String> names = this.doProcess(request);
-		this.doPrint(names, response);
+		this.doWrite(names, response);
 	}
 	
 }
@@ -156,7 +156,7 @@ at least three methods:
 2. the second one `doMap` consists in transforming the result of the SQL query into a Java object;
   - the first SQL query result is an integer `count` that corresponds to the number of rows affected by the query; 
   - the second SQL query result is a `ResultSet` that corresponds to the list of the generated keys if the query is an `insert into ...` statement; 
-3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doPrint` in order to exeutes the SQL query and to write the transformed result on the response output.
+3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doWrite` in order to exeutes the SQL query and to write the transformed result on the response output.
 
 ```java
 public class MyJdbcServlet extends JdbcUpdateServlet<Boolean> {
@@ -178,7 +178,7 @@ public class MyJdbcServlet extends JdbcUpdateServlet<Boolean> {
         public void doPost(HttpServletRequest request, HttpServletResponse response) 
         throws IOException, ServletException {
                 Boolean done = this.doProcess(request);
-                this.doPrint(done, response);
+                this.doWrite(done, response);
         }
         
 }
@@ -257,7 +257,7 @@ public class MyJdbcServlet extends JdbcServlet {
 		this.doCall(request, response, "my-first-jdbc-servlet");
 		this.doCall(request, response, "my-second-jdbc-servlet");
 		String result = (String) request.getAttribute("result");
-		this.doPrint(result, response);
+		this.doWrite(result, response);
 	}
 	
 }
