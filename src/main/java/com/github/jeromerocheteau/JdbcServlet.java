@@ -52,7 +52,7 @@ public abstract class JdbcServlet extends HttpServlet {
 		dispatcher.include(request, response);
 	}
 
-	protected final void doPrint(Object object, HttpServletResponse response) throws IOException, ServletException {
+	protected final void doWrite(Object object, HttpServletResponse response) throws IOException, ServletException {
 		try {
 			response.setContentType(JdbcProperties.RESPONSE_CONTENT_TYPE);
 			PrintWriter writer = response.getWriter();

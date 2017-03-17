@@ -43,7 +43,7 @@
     <repository>
       <id>icam-maven-repository</id>
       <name>Icam Maven Repository</name>
-      <url>scp://172.21.50.1/var/www/html/maven/repository</url>
+      <url>scpexe://172.21.50.1:/var/www/html/maven/repository</url>
     </repository>
   </distributionManagement>
   <build>
