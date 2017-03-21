@@ -72,6 +72,7 @@ public class JdbcFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		request.setCharacterEncoding(requestEncoding);
 		response.setCharacterEncoding(responseEncoding);
+		response.setContentType(JdbcProperties.RESPONSE_CONTENT_TYPE);
 		if (query != null) this.doProcess(request);
 		chain.doFilter(request, response);
 	}
