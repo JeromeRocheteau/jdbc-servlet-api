@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.sql.Connection;
-import java.util.Scanner;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -14,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.StringBuilderWriter;
 
 import com.google.gson.Gson;
 
@@ -62,24 +64,14 @@ public abstract class JdbcServlet extends HttpServlet {
 	}
 	
 	protected final String getContent(String name) throws IOException {
-		StringBuilder builder = new StringBuilder();
 		InputStream inputStream = this.getClass().getResourceAsStream(name);
 		if (inputStream == null) {
 			throw new NullPointerException(name);
 		} else {
-			this.doBuild(inputStream, builder);
-			return builder.toString();
+			StringBuilderWriter writer = new StringBuilderWriter();
+			IOUtils.copy(inputStream, writer, JdbcProperties.DEFAULT_ENCODING);
+			return writer.toString();
 		}
 	}
 
-	private void doBuild(InputStream inputStream, StringBuilder builder) throws IOException {
-		Scanner scanner = new Scanner(inputStream);
-		scanner.useDelimiter("\n");
-		while (scanner.hasNext()) {
-			String line = scanner.next();
-			builder.append(line).append("\n");
-		}
-		scanner.close();
-	}
-	
 }
