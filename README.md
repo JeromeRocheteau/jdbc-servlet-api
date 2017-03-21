@@ -31,6 +31,21 @@ Once done, you need to insert the following dependency into your file `pom.xml`:
     </dependency>
 ```
 
+In addition, you have to specify explicitly dependencies of this library:  
+
+```xml
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.5</version>
+    </dependency>
+```
+
 ### How to connect to a database?
 
 Create a XML file `context.xml` in the folder `src/main/webapp/META-INF` 
@@ -106,7 +121,7 @@ at least three methods:
 
 1. the first one `doFill` makes possible to grab parameter values of the HTTP request `HttpServletRequest` and to inject them into the SQL query `PreparedStatement`;
 2. the second one `doMap` consists in transforming the content of the `ResultSet` into a Java object that stands for the result of SQL query; 
-3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doWrite` in order to exeutes the SQL query and to write the transformed result on the response output.
+3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doWrite` in order to executes the SQL query and to write the transformed result on the response output.
 
 ```java
 public class MyJdbcServlet extends JdbcQueryServlet<List<String>> {
@@ -130,7 +145,7 @@ public class MyJdbcServlet extends JdbcQueryServlet<List<String>> {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 	throws IOException, ServletException {
 		List<String> names = this.doProcess(request);
-		this.doWrite(names, response);
+		this.doWrite(names, response.getWriter());
 	}
 	
 }
@@ -156,7 +171,7 @@ at least three methods:
 2. the second one `doMap` consists in transforming the result of the SQL query into a Java object;
   - the first SQL query result is an integer `count` that corresponds to the number of rows affected by the query; 
   - the second SQL query result is a `ResultSet` that corresponds to the list of the generated keys if the query is an `insert into ...` statement; 
-3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doWrite` in order to exeutes the SQL query and to write the transformed result on the response output.
+3. the third one overrides Java servlets `doGet`, `doPost`, etc methods and could use the method `doProcess` and `doWrite` in order to executes the SQL query and to write the transformed result on the response output.
 
 ```java
 public class MyJdbcServlet extends JdbcUpdateServlet<Boolean> {
@@ -178,7 +193,7 @@ public class MyJdbcServlet extends JdbcUpdateServlet<Boolean> {
         public void doPost(HttpServletRequest request, HttpServletResponse response) 
         throws IOException, ServletException {
                 Boolean done = this.doProcess(request);
-                this.doWrite(done, response);
+                this.doWrite(done, response.getWriter());
         }
         
 }
@@ -244,7 +259,7 @@ It consists of declaring a JDBC servlet within the file `web.xml` without `sql-q
   </servlet>
 ```
 This JDBC servlet `MyJdbcServlet` extends that of `JdbcServlet` in calling these two JDBC servlets 
-by the means of the `doCall` method inside an overrided `doGet` or `doPost` method.
+by the means of the `doCall` method inside an override `doGet` or `doPost` method.
 Results of previous JDBC servlets can then be grabbed from the request attributes 
 and written to the response output stream for example.
 
@@ -257,7 +272,7 @@ public class MyJdbcServlet extends JdbcServlet {
 		this.doCall(request, response, "my-first-jdbc-servlet");
 		this.doCall(request, response, "my-second-jdbc-servlet");
 		String result = (String) request.getAttribute("result");
-		this.doWrite(result, response);
+		this.doWrite(result, response.getWriter());
 	}
 	
 }
