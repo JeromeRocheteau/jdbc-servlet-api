@@ -53,16 +53,16 @@
   </dependencies>
   <distributionManagement>
     <repository>
-      <id>icam-maven-repository</id>
-      <name>Icam Maven Repository</name>
-      <url>scpexe://172.21.50.1:/var/www/html/maven/repository</url>
+      <id>ftp-repository</id>
+      <name>FTP Repository</name>
+      <url>ftp://ftpperso.free.fr/maven/repository</url>
     </repository>
   </distributionManagement>
   <build>
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
-         <artifactId>wagon-ssh-external</artifactId>
+         <artifactId>wagon-ftp</artifactId>
          <version>1.0-beta-6</version>
       </extension>
     </extensions>
