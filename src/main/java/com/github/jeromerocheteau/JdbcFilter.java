@@ -24,18 +24,12 @@ public class JdbcFilter implements Filter {
 	}
 	
 	private String query;
-	
-	private String requestEncoding;
-	
-	private String responseEncoding;
-	
+		
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		try {
 			dataSource = (DataSource) config.getServletContext().getAttribute(JdbcProperties.DATA_SOURCE);
 			this.setQuery(config);
-			this.setRequestEncoding(config);
-			this.setResponseEncoding(config);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
@@ -50,29 +44,8 @@ public class JdbcFilter implements Filter {
 		}
 	}
 
-	private void setRequestEncoding(FilterConfig config) {
-		String name = config.getInitParameter(JdbcProperties.REQUEST_ENCODING_NAME);
-		if (name == null || name.length() == 0) {
-			this.requestEncoding = JdbcProperties.DEFAULT_ENCODING;
-		} else {
-			this.requestEncoding = name;
-		}
-	}
-
-	private void setResponseEncoding(FilterConfig config) {
-		String name = config.getInitParameter(JdbcProperties.RESPONSE_ENCODING_NAME);
-		if (name == null || name.length() == 0) {
-			this.responseEncoding = JdbcProperties.DEFAULT_ENCODING;
-		} else {
-			this.responseEncoding = name;
-		}
-	}
-
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		request.setCharacterEncoding(requestEncoding);
-		response.setCharacterEncoding(responseEncoding);
-		response.setContentType(JdbcProperties.RESPONSE_CONTENT_TYPE);
 		if (query != null) this.doProcess(request);
 		chain.doFilter(request, response);
 	}

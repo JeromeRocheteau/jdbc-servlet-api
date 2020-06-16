@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -18,6 +20,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.StringBuilderWriter;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public abstract class JdbcServlet extends HttpServlet {
 
@@ -25,7 +28,7 @@ public abstract class JdbcServlet extends HttpServlet {
 
 	private DataSource dataSource;
 	
-	protected final Connection getConnection () throws Exception {
+	protected final Connection getConnection() throws Exception {
 		Connection connection = dataSource.getConnection();
 		connection.setAutoCommit(false);
 		return connection;
@@ -38,7 +41,10 @@ public abstract class JdbcServlet extends HttpServlet {
 		try {
 			super.init();
 			dataSource = (DataSource) this.getServletContext().getAttribute(JdbcProperties.DATA_SOURCE);
-			gson = new Gson();
+	        GsonBuilder builder = new GsonBuilder();
+	        builder.registerTypeAdapter(Date.class, new DateAdapter());
+	        builder.registerTypeAdapter(Timestamp.class, new DateTimeAdapter());
+			gson = builder.create();
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
