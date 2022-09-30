@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 import javax.servlet.RequestDispatcher;
@@ -43,6 +44,7 @@ public abstract class JdbcServlet extends HttpServlet {
 			dataSource = (DataSource) this.getServletContext().getAttribute(JdbcProperties.DATA_SOURCE);
 	        GsonBuilder builder = new GsonBuilder();
 	        builder.registerTypeAdapter(Date.class, new DateAdapter());
+	        builder.registerTypeAdapter(Time.class, new TimeAdapter());
 	        builder.registerTypeAdapter(Timestamp.class, new DateTimeAdapter());
 			gson = builder.create();
 		} catch (Exception e) {
