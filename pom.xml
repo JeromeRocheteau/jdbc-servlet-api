@@ -22,14 +22,14 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:git:git://github.com/jeromerocheteau/jdbc-servlet-api.git</connection>
+    <connection>scm:git:git://github.com/jeromerocheteau/jdbc-servlet-api.sgit</connection>
     <developerConnection>scm:git:ssh://github.com:jeromerocheteau/jdbc-servlet-api.git</developerConnection>
     <url>https://github.com/jeromerocheteau/jdbc-servlet-api/tree/master</url>
    </scm>
   <properties>
     <encoding>UTF-8</encoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
   <dependencies>
     <dependency>
