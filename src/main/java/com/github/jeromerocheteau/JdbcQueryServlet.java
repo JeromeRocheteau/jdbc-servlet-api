@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class JdbcQueryServlet<T> extends JdbcServlet {
@@ -14,31 +15,32 @@ public abstract class JdbcQueryServlet<T> extends JdbcServlet {
 
 	private String query;
 	
+	private JdbcQueryCallback<T> callback;
+	
 	@Override
 	public void init() throws ServletException {
 		try {
 			super.init();
 			String name = this.getInitParameter(JdbcProperties.QUERY_NAME);
 			query = this.getContent(name);
+			callback = this.getCallback(this);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
 	}
 	
-	protected abstract void doFill(PreparedStatement statement, HttpServletRequest request) throws Exception;
-	
-	protected abstract T doMap(HttpServletRequest request, ResultSet resultSet) throws Exception;
-	
+	protected abstract JdbcQueryCallback<T> getCallback(HttpServlet servlet);
+		
 	protected T doProcess(HttpServletRequest request) throws IOException, ServletException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
 			connection = this.getConnection();
 			statement = connection.prepareStatement(query);
-			this.doFill(statement, request);
+			callback.doFill(statement, request);
 			ResultSet resultSet = statement.executeQuery();
 			connection.commit();
-			T result = this.doMap(request, resultSet);
+			T result = callback.doMap(request, resultSet);
 			resultSet.close();
 			return result;
 		} catch (Exception e) {
