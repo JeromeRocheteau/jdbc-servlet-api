@@ -16,7 +16,9 @@ public abstract class JdbcUpdateServlet<T> extends JdbcServlet {
 
 	private String query;
 	
-	private JdbcUpdateCallback<T> callback;
+	private JdbcEncoder encoder;
+	
+	private JdbcUpdateDecoder<T> decoder;
 	
 	@Override
 	public void init() throws ServletException {
@@ -24,13 +26,16 @@ public abstract class JdbcUpdateServlet<T> extends JdbcServlet {
 			super.init();
 			String name = this.getInitParameter(JdbcProperties.QUERY_NAME);
 			query = this.getContent(name);
-			callback = this.getCallback(this);
+			encoder=  this.getEncoder(this);
+			decoder = this.getDecoder(this);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
 	}
 	
-	protected abstract JdbcUpdateCallback<T> getCallback(HttpServlet servlet);
+	protected abstract JdbcEncoder getEncoder(HttpServlet servlet);
+	
+	protected abstract JdbcUpdateDecoder<T> getDecoder(HttpServlet servlet);
 		
 	protected T doProcess(HttpServletRequest request) throws IOException, ServletException {
 		Connection connection = null;
@@ -38,11 +43,11 @@ public abstract class JdbcUpdateServlet<T> extends JdbcServlet {
 		try {
 			connection = this.getConnection();
 			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			callback.doFill(statement, request);
+			encoder.doFill(statement, request);
 			int count = statement.executeUpdate();
 			connection.commit();
 			ResultSet resultSet = statement.getGeneratedKeys();
-			return callback.doMap(request, count, resultSet);
+			return decoder.doMap(request, count, resultSet);
 		} catch (Exception e) {
 			try {
 				connection.rollback();

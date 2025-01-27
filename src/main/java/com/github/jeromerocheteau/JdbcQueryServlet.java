@@ -15,7 +15,9 @@ public abstract class JdbcQueryServlet<T> extends JdbcServlet {
 
 	private String query;
 	
-	private JdbcQueryCallback<T> callback;
+	private JdbcEncoder encoder;
+	
+	private JdbcQueryDecoder<T> decoder;
 	
 	@Override
 	public void init() throws ServletException {
@@ -23,13 +25,16 @@ public abstract class JdbcQueryServlet<T> extends JdbcServlet {
 			super.init();
 			String name = this.getInitParameter(JdbcProperties.QUERY_NAME);
 			query = this.getContent(name);
-			callback = this.getCallback(this);
+			encoder = this.getEncoder(this);
+			decoder = this.getDecoder(this);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
 	}
 	
-	protected abstract JdbcQueryCallback<T> getCallback(HttpServlet servlet);
+	protected abstract JdbcEncoder getEncoder(HttpServlet servlet);
+	
+	protected abstract JdbcQueryDecoder<T> getDecoder(HttpServlet servlet);
 		
 	protected T doProcess(HttpServletRequest request) throws IOException, ServletException {
 		Connection connection = null;
@@ -37,10 +42,10 @@ public abstract class JdbcQueryServlet<T> extends JdbcServlet {
 		try {
 			connection = this.getConnection();
 			statement = connection.prepareStatement(query);
-			callback.doFill(statement, request);
+			encoder.doFill(statement, request);
 			ResultSet resultSet = statement.executeQuery();
 			connection.commit();
-			T result = callback.doMap(request, resultSet);
+			T result = decoder.doMap(request, resultSet);
 			resultSet.close();
 			return result;
 		} catch (Exception e) {
