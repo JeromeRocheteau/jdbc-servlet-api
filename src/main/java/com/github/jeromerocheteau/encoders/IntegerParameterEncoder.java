@@ -24,8 +24,8 @@ public class IntegerParameterEncoder implements JdbcEncoder {
 		if (value == null) {
 			statement.setNull(this.index, Types.INTEGER);
 		} else {
-			Integer integer = Integer.valueOf(value);
-			statement.setString(this.index, integer.toString());			
+			Integer innumberteger = Integer.valueOf(value);
+			statement.setInt(this.index, innumberteger.intValue());			
 		}
 	}
 
