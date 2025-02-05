@@ -43,9 +43,10 @@ public abstract class JdbcServlet extends HttpServlet {
 			super.init();
 			dataSource = (DataSource) this.getServletContext().getAttribute(JdbcProperties.DATA_SOURCE);
 	        GsonBuilder builder = new GsonBuilder();
+	        builder.setDateFormat("yyyy-MM-dd");
 	        builder.registerTypeAdapter(Date.class, new DateAdapter());
 	        builder.registerTypeAdapter(Time.class, new TimeAdapter());
-	        builder.registerTypeAdapter(Timestamp.class, new DateTimeAdapter());
+	        builder.registerTypeAdapter(Timestamp.class, new TimestampAdapter());
 			gson = builder.create();
 		} catch (Exception e) {
 			throw new ServletException(e);

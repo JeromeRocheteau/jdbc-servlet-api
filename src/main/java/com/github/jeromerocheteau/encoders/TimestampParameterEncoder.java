@@ -27,6 +27,7 @@ public class TimestampParameterEncoder implements JdbcEncoder {
 		} else {
 			Long time = Long.valueOf(value);
 			Timestamp ts = new Timestamp(time.longValue());
+			System.out.println(value + "\t" + time.toString() + "\t" + ts.toString());
 			statement.setTimestamp(this.index, ts);			
 		}
 	}
