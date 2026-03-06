@@ -8,25 +8,30 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.github.jeromerocheteau.JdbcEncoder;
 
-public class UuidParameterEncoder implements JdbcEncoder {
+public class UuidValueEncoder implements JdbcEncoder {
 
 	private int index;
 	
-	private String name;
+	private UUID value;
 	
-	public UuidParameterEncoder(int index, String name) {
-		this.index = index;
-		this.name = name;
+	public UUID getValue() {
+		return value;
 	}
-	
+
+	public void setValue(UUID value) {
+		this.value = value;
+	}
+		
+	public UuidValueEncoder(int index) {
+		this.index = index;
+	}
+
 	@Override
 	public void doFill(PreparedStatement statement, HttpServletRequest request) throws Exception {
-		String value = request.getParameter(this.name);
 		if (value == null) {
 			statement.setNull(this.index, Types.VARCHAR);
 		} else {
-			UUID uuid = UUID.fromString(value);
-			statement.setString(this.index, uuid.toString());
+			statement.setString(this.index, value.toString());
 		}
 	}
 

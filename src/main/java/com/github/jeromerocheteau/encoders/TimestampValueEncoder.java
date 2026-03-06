@@ -1,32 +1,37 @@
 package com.github.jeromerocheteau.encoders;
 
 import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.jeromerocheteau.JdbcEncoder;
 
-public class UuidParameterEncoder implements JdbcEncoder {
+public class TimestampValueEncoder implements JdbcEncoder {
 
 	private int index;
 	
-	private String name;
+	private Timestamp value;
 	
-	public UuidParameterEncoder(int index, String name) {
-		this.index = index;
-		this.name = name;
+	public Timestamp getValue() {
+		return value;
 	}
-	
+
+	public void setValue(Timestamp value) {
+		this.value = value;
+	}
+		
+	public TimestampValueEncoder(int index) {
+		this.index = index;
+	}
+
 	@Override
 	public void doFill(PreparedStatement statement, HttpServletRequest request) throws Exception {
-		String value = request.getParameter(this.name);
 		if (value == null) {
-			statement.setNull(this.index, Types.VARCHAR);
+			statement.setNull(this.index, Types.TIMESTAMP);
 		} else {
-			UUID uuid = UUID.fromString(value);
-			statement.setString(this.index, uuid.toString());
+			statement.setTimestamp(this.index, value);
 		}
 	}
 

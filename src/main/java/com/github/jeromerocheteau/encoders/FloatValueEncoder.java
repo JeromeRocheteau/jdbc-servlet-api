@@ -2,31 +2,35 @@ package com.github.jeromerocheteau.encoders;
 
 import java.sql.PreparedStatement;
 import java.sql.Types;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.github.jeromerocheteau.JdbcEncoder;
 
-public class UuidParameterEncoder implements JdbcEncoder {
+public class FloatValueEncoder implements JdbcEncoder {
 
 	private int index;
 	
-	private String name;
+	private Float value;
 	
-	public UuidParameterEncoder(int index, String name) {
-		this.index = index;
-		this.name = name;
+	public Float getValue() {
+		return value;
 	}
-	
+
+	public void setValue(Float value) {
+		this.value = value;
+	}
+		
+	public FloatValueEncoder(int index) {
+		this.index = index;
+	}
+
 	@Override
 	public void doFill(PreparedStatement statement, HttpServletRequest request) throws Exception {
-		String value = request.getParameter(this.name);
 		if (value == null) {
-			statement.setNull(this.index, Types.VARCHAR);
+			statement.setNull(this.index, Types.FLOAT);
 		} else {
-			UUID uuid = UUID.fromString(value);
-			statement.setString(this.index, uuid.toString());
+			statement.setFloat(this.index, value);
 		}
 	}
 
