@@ -3,7 +3,7 @@ package com.github.jeromerocheteau.encoders;
 import java.sql.PreparedStatement;
 import java.sql.Types;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.github.jeromerocheteau.JdbcEncoder;
 

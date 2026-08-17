@@ -2,9 +2,9 @@ package com.github.jeromerocheteau;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 import javax.sql.DataSource;
 
 public class JdbcListener implements ServletContextListener {

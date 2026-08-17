@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.Time;
 import java.sql.Types;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.github.jeromerocheteau.JdbcEncoder;
 

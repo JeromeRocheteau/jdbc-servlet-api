@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class JdbcCompositeEncoder implements JdbcEncoder {
 

@@ -2,7 +2,7 @@ package com.github.jeromerocheteau.encoders;
 
 import java.sql.PreparedStatement;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.github.jeromerocheteau.JdbcEncoder;
 
